@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel=" stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Edit appointment</title>
+</head>
+
+<body>
+    <div class="col-md-6">
+        <h1 class="col-md-6" style="margin-top:30px">Edit an appointment</h1>
+        <form class=" col-md-6" method="post" action="/appointment/{{$appointment->id}}/update">
+            @method('PATCH')
+            @csrf
+
+
+            <div class="form-group ">
+                <label for="exampleFormControlSelect1">Choose a doctor</label>
+                <select class="form-control" id="exampleFormControlSelect1" name="doctor_id">
+                    @foreach ($doctors as $doctor)
+                    <option value="{{$doctor->id}}">{{$doctor->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput">Patient`s name</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" name="patient_name"
+                    value="{{$appointment->patient_name}}">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label for="checkbox" class="pr-3">Has occured:</label>
+                    <div class="input-group-text">
+                        <input type="checkbox" @if($appointment->has_occured) checked @endif name="has_occured">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Date from</label>
+                <input type="date" class="form-control" id="formGroupExampleInput2" name="time_from"
+                    value="{{$appointment->time_from}}">
+            </div>
+            <div class="form-group">
+                <label for="formGroupExampleInput2">Date to</label>
+                <input type="date" class="form-control" id="formGroupExampleInput2" name="time_to"
+                    value="{{$appointment->time_to}}">
+            </div>
+
+            @include('doctors.errors')
+
+            <button type="submit" class="btn btn-primary">Edit</button>
+
+        </form>
+        <form class="col-md-6" style="margin-top:10px" method="post" action="/appointment/{{$appointment->id}}/delete">
+            @method('DELETE')
+            @csrf
+            <button type="submit" class="btn btn-outline-primary">Delete</button>
+        </form>
+
+    </div>
+</body>
+
+</html>
